@@ -14,8 +14,8 @@ class Borrower extends Model
         'phone',
         
     ];
-    public function loans()
+    public function loan()
     {
-        return $this->hasMany(Loan::class);
+        return $this->belongsTo(Loan::class);
     }
 }

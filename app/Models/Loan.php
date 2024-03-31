@@ -17,4 +17,10 @@ class Loan extends Model
     {
         return $this->belongsTo(Borrower::class);
     }
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class);
+    }
+
+
 }
