@@ -8,11 +8,25 @@ use Illuminate\Database\Eloquent\Model;
 class Customer extends Model
 {
     use HasFactory;
-    protected $fillable = ['name', 'email', 'phone', 'credit_limit'];
+    protected $fillable = [
+        'name',
+        'email',
+        'phone',
+        'address',
+        'is_in_debt',
+        'debt_amount',
+    ];
 
-    // Define a one-to-many relationship with the Loan model
+    protected $casts = [
+        'is_in_debt' => 'boolean',
+    ];
+
     public function loans()
     {
         return $this->hasMany(Loan::class);
+    }
+    public function payments()
+    {
+        return $this->hasManyThrough(Payment::class, Loan::class);
     }
 }

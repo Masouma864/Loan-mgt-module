@@ -12,11 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('loans', function (Blueprint $table) {
-            $table->id();
-            $table->decimal("amount");
-            $table->date('date')->nullable();
-            $table->string("phone")->nullable();
+            $table->id(); // Primary key declaration
+            $table->unsignedBigInteger('customer_id');
+            $table->decimal('loan_amount', 8, 2);
+            $table->date('loan_date');
+            $table->string('payment_terms');
             $table->timestamps();
+        
+            // Define foreign key constraint
+            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
         });
     }
 

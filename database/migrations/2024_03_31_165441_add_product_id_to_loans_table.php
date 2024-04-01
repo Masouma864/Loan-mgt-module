@@ -11,13 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('borrowers', function (Blueprint $table) {
-            $table->id();
-            $table->string("name");
-            $table->string('email')->unique();
-            $table->string('phone')->nullable();
-
-            $table->timestamps();
+        Schema::table('loans', function (Blueprint $table) {
+            $table->foreignId('product_id')->constrained();
         });
     }
 
@@ -26,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('borrowers');
+        Schema::table('loans', function (Blueprint $table) {
+            //
+        });
     }
 };

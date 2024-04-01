@@ -16,7 +16,9 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('phone');
-            $table->decimal('credit_limit', 10, 2)->default(0);
+            $table->text('address')->nullable();
+            $table->boolean('is_in_debt')->default(false);
+            $table->decimal('debt_amount', 10, 2)->default(0.00);
             $table->timestamps();
         });
     }

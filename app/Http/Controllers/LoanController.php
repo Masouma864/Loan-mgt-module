@@ -4,93 +4,110 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Loan;
-use App\Models\Borrower;
+use App\Models\Customer;
+use App\Models\Product;
 
 class LoanController extends Controller
 {
     public function index(Request $request)
     {
-        {
+        try {
             $borrowerId = $request->query('borrower_id');
-        
-            // Check if a specific borrower ID is provided
+            
             if ($borrowerId) {
                 $loans = Loan::where('borrower_id', $borrowerId)->get();
             } else {
-                // Retrieve all loans if no specific borrower ID is provided
+               
                 $loans = Loan::all();
             }
-        
+            
             return view('loans.index', ['loans' => $loans]);
+        } catch (\Exception $e) {
+           
+            return back()->withError('Failed to fetch loans.');
         }
     }
 
-    public function create()
+    public function create($customer_id)
     {
-        // Fetch all borrowers to populate the dropdown list
-        $borrowers = Borrower::all();
-        
-        // Pass the $borrowers variable to the view
-        return view('loans.create', compact('borrowers'));
-    }
+        // Fetch list of customers to populate dropdown
+    
+        $customer = Customer::findOrFail($customer_id);
+        $products = Product::all(); 
+        $loans = Loan::all();
+        return view('loans.create', compact('customer', 'loans','products'));
 
-    public function store(Request $request)
-    {
-        // Validate the incoming request data
-        $request->validate([
-            'amount' => 'required|numeric',
-            'borrower_id' => 'required|exists:borrowers,id',
-            'date' => 'required|date',
-        ]);
-
-        // Create a new loan instance
-        $loan = new Loan();
-        $loan->amount = $request->amount;
-        $loan->borrower_id = $request->borrower_id;
-        $loan->date = $request->date;
-        
-        // Save the loan to the database
-        $loan->save();
-
-        // Redirect to a relevant page (e.g., show the newly created loan)
-        return redirect()->route('loans.show', $loan->id)->with('success', 'Loan created successfully!');
     }
     public function show($id)
-{
-    // Find the loan by its ID
-    $loan = Loan::findOrFail($id);
+    {
+        // Find the loan
+        $loan = Loan::findOrFail($id);
 
-    // Return the view to display the loan details
-    return view('loans.show', compact('loan'));
-}
-public function edit($id)
+        return view('loans.show', compact('loan'));
+    }
+    public function showPayments(Loan $loan)
+    {
+        $payments = $loan->payments;
+        
+        return view('loans.payments', compact('loan', 'payments'));
+    }
+    public function edit($id)
+    {
+       
+        $loan = Loan::findOrFail($id);
+        $customers = Customer::all(); 
+   
+       $products = Product::all();
+       
+        return view('loans.edit', compact('loan', 'customers','products'));
+    }
+ 
+
+public function store(Request $request)
 {
-    // Retrieve the loan record from the database
-    $loan = Loan::findOrFail($id);
     
-    // Retrieve all borrowers from the database
-    $borrowers = Borrower::all();
+    $validatedData = $request->validate([
+    'customer_id' => 'required|exists:customers,id', // Assuming you have a customer_id field in your loans table
+    'product_id' => 'required|exists:products,id',
+    'loan_amount' => 'required|numeric',
+
+    'loan_date' => 'required|date',
+    'payment_terms' => 'required|string',
+]);
+
+$loan = new Loan();
+
+// Assign the customer ID
+$loan->customer_id = $validatedData['customer_id'];
+$loan->product_id = $validatedData['product_id'];
+$loan->loan_amount = $validatedData['loan_amount'];
+$loan->loan_date = $validatedData['loan_date'];
+$loan->payment_terms = $validatedData['payment_terms'];
+$loan->save();
+
+    return redirect()->route('loans.index')->with('success', 'Loan registered successfully.');
     
-    // Pass the loan and borrowers data to the edit view
-    return view('loans.edit', compact('loan', 'borrowers'));
 }
+
 public function update(Request $request, $id)
 {
-    // Validate the incoming request data
-    $validatedData = $request->validate([
-        'amount' => 'required|numeric',
-        // Add validation rules for other fields as needed
-    ]);
-    
-    // Find the loan record by its ID
+    // Retrieve the loan by ID
     $loan = Loan::findOrFail($id);
     
-    // Update the loan record with the validated data
+    // Validate the incoming request data
+    $validatedData = $request->validate([
+        'customer_id' => 'required|exists:customers,id', // Assuming you have a customer_id field in your loans table
+        'product_id' => 'required|exists:products,id',
+        'loan_amount' => 'required|numeric',
+        'loan_date' => 'required|date',
+        'payment_terms' => 'required|string',
+    ]);
+
     $loan->update($validatedData);
-    
-    // Redirect the user to the loans index page with a success message
-    return redirect()->route('loans.index')->with('success', 'Loan updated successfully');
+
+    return redirect()->route('loans.index')->with('success', 'Loan updated successfully.');
 }
+
 public function destroy($id)
 {
     $loan = Loan::findOrFail($id);

@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <h1>Make Payment</h1>
-        <form action="{{ route('loans.store') }}" method="POST">
+        <form action="{{ route('payments.store', ['customer_id' => $customer_id]) }}" method="POST">
             @csrf
             <input type="hidden" name="customer_id" value="{{ $customer->id }}">
             <div class="form-group">
@@ -22,7 +22,7 @@
                 <label for="payment_date">Payment Date:</label>
                 <input type="date" class="form-control" id="payment_date" name="payment_date">
             </div>
-            <!-- Add more fields as needed -->
+          
             <button type="submit" class="btn btn-primary">Submit Payment</button>
         </form>
     </div>

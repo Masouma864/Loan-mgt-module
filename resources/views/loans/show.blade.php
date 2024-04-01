@@ -2,16 +2,24 @@
 
 @section('content')
     <div class="container">
-        <h2 class="mt-3 mb-4">Loan Details</h2>
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Loan ID: {{ $loan->id }}</h5>
-                <p class="card-text"><strong>Amount:</strong> {{ $loan->amount }}</p>
-                <p class="card-text"><strong>Borrower:</strong> {{ $loan->borrower->name }}</p>
-                <p class="card-text"><strong>Date:</strong> {{ $loan->date }}</p>
-            </div>
-            <div class="card-footer">
-                <a href="{{ route('loans.index') }}" class="btn btn-secondary">Back to List</a>
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">{{ __('Loan Details') }}</div>
+
+                    <div class="card-body">
+                        <p><strong>Customer:</strong> {{ $loan->customer->name }}</p>
+                        <p><strong>Amount:</strong> {{ $loan->loan_amount }}</p>
+                        <p><strong>Date:</strong> {{ $loan->loan_date }}</p>
+                        <p><strong>Status:</strong> {{ $loan->status }}</p>
+                        <p><strong>Remaining Amount:</strong> {{ $loan->remaining_amount }}</p>
+                    </div>
+
+                    <div class="card-footer">
+    <a href="{{ route('loans.index') }}" class="btn btn-secondary">{{ __('Back to List') }}</a>
+    <a href="{{ route('loans.payments', $loan->id) }}" class="btn btn-primary">{{ __('View Payments') }}</a>
+</div>
+                </div>
             </div>
         </div>
     </div>
