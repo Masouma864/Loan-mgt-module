@@ -20,7 +20,7 @@
                         <td>{{ $product->price }}</td>
                         <td>{{ $product->description }}</td>
                         <td>
-                            <a href="{{ route('products.show', $product->id) }}" class="btn btn-info">View</a>
+                          
                             <a href="{{ route('products.edit', $product->id) }}" class="btn btn-primary">Edit</a>
                             <form action="{{ route('products.destroy', $product->id) }}" method="POST" style="display: inline;">
                                 @csrf

@@ -2,28 +2,49 @@
 
 @section('content')
     <div class="container">
-        <h1>Make Payment</h1>
-        <form action="{{ route('loans.store') }}" method="POST">
-            @csrf
-            <input type="hidden" name="customer_id" value="{{ $customer->id }}">
-            <div class="form-group">
-                <label for="loan_id">Select Loan:</label>
-                <select class="form-control" id="loan_id" name="loan_id">
-                    @foreach ($loans as $loan)
-                        <option value="{{ $loan->id }}">{{ $loan->loan_amount }}</option>
-                    @endforeach
-                </select>
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">{{ __('Create New Loan') }}</div>
+
+                    <div class="card-body">
+                        <form method="POST" action="{{ route('loans.store') }}">
+                            @csrf
+
+                            <div class="form-group">
+                                <label for="customer_id">{{ __('Customer') }}</label>
+                                <input type="text" class="form-control" id="customer_id" name="customer_id" value="{{ $customer->id }}" readonly>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="product_id">{{ __('Product') }}</label>
+                                <select class="form-control" id="product_id" name="product_id">
+                                    @foreach ($products as $product)
+                                        <option value="{{ $product->id }}">{{ $product->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="loan_amount">{{ __('Loan_Amount') }}</label>
+                                <input type="number" class="form-control" id="loan_amount" name="loan_amount">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="loan_date">{{ __('Loan_Date') }}</label>
+                                <input type="date" class="form-control" id="loan_date" name="loan_date">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="payment_terms">{{ __('Payment Terms') }}</label>
+                                <input type="text" class="form-control" id="payment_terms" name="payment_terms">
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">{{ __('Submit') }}</button>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="amount">Amount:</label>
-                <input type="number" class="form-control" id="amount" name="amount">
-            </div>
-            <div class="form-group">
-                <label for="payment_date">Payment Date:</label>
-                <input type="date" class="form-control" id="payment_date" name="payment_date">
-            </div>
-            <!-- Add more fields as needed -->
-            <button type="submit" class="btn btn-primary">Submit Payment</button>
-        </form>
+        </div>
     </div>
 @endsection

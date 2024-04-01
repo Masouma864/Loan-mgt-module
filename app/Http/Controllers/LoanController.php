@@ -63,31 +63,34 @@ class LoanController extends Controller
     }
  
 
-public function store(Request $request)
-{
+    public function store(Request $request)
+    {
+        // Validate the incoming request data
+        $validatedData = $request->validate([
+            'customer_id' => 'required|exists:customers,id',
+            'product_id' => 'required|exists:products,id',
+            'loan_amount' => 'required|numeric',
+            'loan_date' => 'required|date',
+            'payment_terms' => 'required|string',
+        ]);
     
-    $validatedData = $request->validate([
-    'customer_id' => 'required|exists:customers,id', // Assuming you have a customer_id field in your loans table
-    'product_id' => 'required|exists:products,id',
-    'loan_amount' => 'required|numeric',
-
-    'loan_date' => 'required|date',
-    'payment_terms' => 'required|string',
-]);
-
-$loan = new Loan();
-
-// Assign the customer ID
-$loan->customer_id = $validatedData['customer_id'];
-$loan->product_id = $validatedData['product_id'];
-$loan->loan_amount = $validatedData['loan_amount'];
-$loan->loan_date = $validatedData['loan_date'];
-$loan->payment_terms = $validatedData['payment_terms'];
-$loan->save();
-
-    return redirect()->route('loans.index')->with('success', 'Loan registered successfully.');
+        // Create a new Loan instance
+        $loan = new Loan();
     
-}
+        // Fill the loan instance with validated data
+        $loan->customer_id = $validatedData['customer_id'];
+        $loan->product_id = $validatedData['product_id'];
+        $loan->loan_amount = $validatedData['loan_amount'];
+        $loan->loan_date = $validatedData['loan_date'];
+        $loan->payment_terms = $validatedData['payment_terms'];
+    
+        // Save the loan record to the database
+        $loan->save();
+    
+        // Redirect the user to a relevant page with a success message
+        return redirect()->route('loans.index')->with('success', 'Loan created successfully.');
+    }
+
 
 public function update(Request $request, $id)
 {

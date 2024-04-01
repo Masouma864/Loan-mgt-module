@@ -36,8 +36,7 @@
                                         <td>{{ $loan->loan_date }}</td>
                                         <td>{{ $loan->payment_terms }}</td>
                                         <td>
-                                        <a href="{{ route('loans.edit', $loan->id) }}" class="btn btn-primary btn-sm">Edit</a>
-
+                                        <a href="{{ route('loans.edit', $loan->id) }}" class="btn btn-sm btn-primary">Edit</a>
 
                                             <form action="{{ route('loans.destroy', $loan->id) }}" method="POST" style="display: inline-block;">
                                                 @csrf
@@ -51,9 +50,7 @@
                         </table>
                     </div>
 
-                    <div class="card-footer">
-                        <a href="{{ route('loans.create') }}" class="btn btn-primary">Add New Loan</a>
-                    </div>
+                   
                 </div>
             </div>
         </div>

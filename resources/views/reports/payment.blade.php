@@ -2,26 +2,26 @@
 
 @section('content') 
     <div class="container">
-    <h1>Payment Report</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Amount</th>
-                <th>Date</th>
-                <th>Type</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($payments as $payment)
-            <tr>
-                <td>{{ $payment->id }}</td>
-                <td>{{ $payment->amount }}</td>
-                <td>{{ $payment->date }}</td>
-                <td>{{ $payment->type }}</td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
+        <h1>Payment Report</h1>
+        <table style="width:100%; border-collapse: collapse;">
+            <thead>
+                <tr>
+                    <th style="border: 1px solid #ddd; padding: 8px;">ID</th>
+                    <th style="border: 1px solid #ddd; padding: 8px;">Amount</th>
+                    <th style="border: 1px solid #ddd; padding: 8px;">Date</th>
+                    <th style="border: 1px solid #ddd; padding: 8px;">Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($payments as $payment)
+                    <tr>
+                        <td style="border: 1px solid #ddd; padding: 8px;">{{ $payment->id }}</td>
+                        <td style="border: 1px solid #ddd; padding: 8px;">{{ $payment->amount }}</td>
+                        <td style="border: 1px solid #ddd; padding: 8px;">{{ $payment->payment_date }}</td>
+                        <td style="border: 1px solid #ddd; padding: 8px;">{{ $payment->loan_id }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
     </div>
-    @endsection
+@endsection
