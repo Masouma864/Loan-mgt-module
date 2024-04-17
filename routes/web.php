@@ -21,8 +21,8 @@ Route::put('/borrowers/{borrower}', [BorrowerController::class,'update'])->name(
 Route::delete('/borrowers/{id}', [BorrowerController::class,'destroy'])->name('borrowers.destroy');
 
 // Loan routes
-Route::get('/loans', [LoanController::class , 'index'])->name('loans.index');
-Route::get('/customers/{customer_id}/loans/create', [LoanController::class, 'create'])->name('loans.create');
+Route::get('/loans', [LoanController::class,'index'])->name('loans.index');
+Route::get('/loans/create/{customer_id}', [LoanController::class,'create'])->name('loans.create');
 
 Route::post('/loans', [LoanController::class ,'store'])->name('loans.store');
 Route::get('/loans/{id}', [LoanController::class ,'show'])->name('loans.show');

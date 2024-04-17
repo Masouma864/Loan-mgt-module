@@ -71,10 +71,6 @@
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('customers.index') }}">Customer</a>
             </li>
-           
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('loans.index') }}">Loan</a>
-            </li>
           
           
             <li class="nav-item">

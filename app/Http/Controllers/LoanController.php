@@ -12,22 +12,16 @@ class LoanController extends Controller
     public function index(Request $request)
     {
         try {
-            $borrowerId = $request->query('borrower_id');
-            
-            if ($borrowerId) {
-                $loans = Loan::where('borrower_id', $borrowerId)->get();
-            } else {
-               
-                $loans = Loan::all();
-            }
-            
-            return view('loans.index', ['loans' => $loans]);
+            $customerId = $request->query('customer_id');
+            $customer = Customer::findOrFail($customerId);
+            $products = Product::all();
+            $loans = Loan::where('customer_id', $customerId)->get();
+    
+            return view('loans.index', compact('customer', 'loans', 'products'));
         } catch (\Exception $e) {
-           
             return back()->withError('Failed to fetch loans.');
         }
     }
-
     public function create($customer_id)
     {
         // Fetch list of customers to populate dropdown

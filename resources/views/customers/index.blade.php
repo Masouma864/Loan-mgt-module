@@ -37,6 +37,7 @@
                     </form>
                    
                     <a href="{{ route('loans.create', ['customer_id' => $customer->id]) }}" class="btn btn-success btn-sm">Add Loan</a>
+
                 </td>
             </tr>
             @endforeach

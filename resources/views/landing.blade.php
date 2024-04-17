@@ -81,10 +81,10 @@
             <h3><a href="{{ route('customers.index') }}">Track Customers</a></h3>
             <p>Record and track payments associated with loans. Stay on top of your finances.</p>
         </div>
-        <div class="feature">
+        <!-- <div class="feature">
             <h3><a href="{{ route('loans.index') }}">Manage Loans</a></h3>
             <p>Track and manage your loans with ease. Create, edit, and view loan details.</p>
-        </div>
+        </div> -->
         <div class="feature">
             <h3><a href="{{ route('products.index') }}">Manage Products</a></h3>
             <p>Manage your products efficiently. Add, edit, and delete product details.</p>
